@@ -1,0 +1,66 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Flask, Bokeh, MathJax example
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.css" type="text/css"/>
+{% endblock%}
+
+
+{% block scripts %}
+{{ super() }}
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "AMS"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.js"></script>
+{{ plot_script|indent(4)|safe }}
+{% endblock %}
+
+
+{% block content %}
+<div class="alert alert-success" role="alert">
+    This web page visualizes the function \(
+    u(t) = Ae^{-bt}\sin (w t), \hbox{ for } t\in [0,T]
+    \).
+</div>
+
+<form method=post action="">
+    <table>
+        {% for field in form %}
+        <tr>
+            <td class="name"><span class="label label-primary">{{ field.name }}</span></td>
+            <td>{{ field(size=12) }}</td>
+            <td>{{ field.label }}</td>
+            {% if field.errors %}
+            <td>
+                <ul class=errors>
+                    {% for error in field.errors %}
+                    <li><font color="red">{{ error }}</font></li>
+                    {% endfor %}
+                </ul>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    <p>
+        <button type="submit" class="btn btn-primary btn-lg">Compute</button>
+        <!--<input type=submit value=Compute>-->
+    </p>
+</form>
+
+{{ plot_div|indent(4)|safe }}
+
+{% endblock %}
+
