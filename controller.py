@@ -27,7 +27,7 @@ def index():
     else:
         plot_script, plot_div = compute(1, 0.1, 1, 20)
 
-    return render_template('view_bootstrap.html',
+    return render_template('view.html',
                            form=form,
                            plot_script=plot_script,
                            plot_div=plot_div,
